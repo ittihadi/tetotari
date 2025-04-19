@@ -1,0 +1,25 @@
+.{
+    .name = .Tetotari,
+
+    // This is a [Semantic Version](https://semver.org/).
+    .version = "0.0.0",
+    .fingerprint = 0x623eba088ae9fba9, // Changing this has security and trust implications.
+
+    // Tracks the earliest Zig version that the package considers to be a
+    // supported use case.
+    .minimum_zig_version = "0.14.0",
+
+    .dependencies = .{
+        .raylib_zig = .{
+            .url = "git+https://github.com/Not-Nik/raylib-zig?ref=devel#d6c77762cbdebbf56d3ff101142048dfae2496c4",
+            .hash = "raylib_zig-5.6.0-dev-KE8REBMyBQCnQ9RBhHsoSKr97XmDHF84wx3g0UiMRDxj",
+        },
+    },
+    .paths = .{
+        "build.zig",
+        "build.zig.zon",
+        "src",
+        "LICENSE",
+        "README.md",
+    },
+}

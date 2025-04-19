@@ -1,0 +1,6 @@
+# Zig files
+.zig-cache/
+zig-out/
+
+# Other
+_old
