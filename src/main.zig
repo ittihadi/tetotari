@@ -6,7 +6,7 @@ const std = @import("std");
 const rl = @import("raylib");
 const builtin = @import("builtin");
 
-const assets = @import("aseets.zig");
+const assets = @import("assets.zig");
 const Ticker = @import("Ticker.zig");
 
 const stage = @import("stage.zig");
