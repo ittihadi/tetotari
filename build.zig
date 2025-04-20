@@ -20,7 +20,7 @@ pub fn build(b: *std.Build) void {
         .optimize = optimize,
         .shared = true,
         .rmodels = false,
-        // .platform = rlz.PlatformBackend.rgfw,
+        .platform = rlz.PlatformBackend.glfw,
         // Wayland backend does a weird thing where it's offset by about 20 pixels
         // down on launch
         .linux_display_backend = rlz.LinuxDisplayBackend.X11,
@@ -28,6 +28,7 @@ pub fn build(b: *std.Build) void {
 
     const raylib = raylib_dep.module("raylib");
     const raylib_artifact = raylib_dep.artifact("raylib");
+    raylib_artifact.root_module.addCMacro("SUPPORT_CUSTOM_FRAME_CONTROL", "1");
 
     // Add raylib to root module
     exe_mod.addImport("raylib", raylib);

@@ -31,8 +31,6 @@ pub fn main() !void {
     rl.initAudioDevice();
     defer rl.closeAudioDevice();
 
-    rl.setTargetFPS(120);
-
     _ = rl.changeDirectory(rl.getApplicationDirectory());
 
     try menu.init();
@@ -45,10 +43,22 @@ pub fn main() !void {
         .draw = draw,
     };
 
-    while (!rl.windowShouldClose()) try ticker.step();
+    // TODO: Maybe utilize separete input thread instead
+    while (!rl.windowShouldClose()) {
+        try ticker.step();
+        try ticker.wait();
+    }
 }
 
 pub fn fixedUpdate() !void {
+    rl.pollInputEvents();
+
+    // TODO: This thing
+    // if (rl.isKeyPressed(.f11)) {
+    //     std.log.info("Toggle fullscreen", .{});
+    //     rl.toggleFullscreen();
+    // }
+
     if (state.screen == .menu) {
         try menu.fixedUpdate();
     } else if (state.screen == .stage) {
@@ -57,12 +67,6 @@ pub fn fixedUpdate() !void {
 }
 
 pub fn renderUpdate(alpha: f32) void {
-    // TODO: This thing
-    // if (rl.isKeyPressed(.f11)) {
-    //     std.log.info("Toggle fullscreen", .{});
-    //     rl.toggleFullscreen();
-    // }
-
     if (state.screen == .menu) {
         menu.renderUpdate(alpha);
     } else if (state.screen == .stage) {
@@ -72,7 +76,6 @@ pub fn renderUpdate(alpha: f32) void {
 
 pub fn draw(alpha: f32) !void {
     rl.beginDrawing();
-    defer rl.endDrawing();
 
     rl.clearBackground(.black);
 
@@ -81,6 +84,9 @@ pub fn draw(alpha: f32) !void {
     } else if (state.screen == .stage) {
         try stage.draw(alpha);
     }
+
+    rl.endDrawing();
+    rl.swapScreenBuffer();
 }
 
 const State = struct {
