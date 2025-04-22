@@ -1,13 +1,18 @@
 const std = @import("std");
 const rl = @import("raylib");
 
-const state = &@import("root").state;
+const assets = @import("assets.zig");
+
+var alloc: std.mem.Allocator = undefined;
 
 var songs: std.ArrayList(i32) = undefined;
 var selected_song: u32 = 0;
 
-pub fn init() !void {
-    songs = .init(state.allocator);
+
+pub fn init(allocator: std.mem.Allocator) !void {
+    alloc = allocator;
+    songs = .init(alloc);
+
 
     try reloadSongs();
 }
@@ -33,15 +38,7 @@ pub fn renderUpdate(alpha: f32) void {
 }
 
 pub fn draw(alpha: f32) !void {
-    // _ = alpha;
-
-    const str = try std.fmt.allocPrintZ(state.allocator, "Alpha: {d:.3}", .{alpha});
-    defer state.allocator.free(str);
-    rl.drawText(str, 0, 20, 20, .white);
-
-    const selected_song_str = try std.fmt.allocPrintZ(state.allocator, "Song: {d}", .{selected_song});
-    defer state.allocator.free(selected_song_str);
-    rl.drawText(selected_song_str, 0, 0, 20, .white);
+    _ = alpha;
 
     // Layout draft:
     //     ic title
